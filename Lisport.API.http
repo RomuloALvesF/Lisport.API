@@ -1,0 +1,6 @@
+@Lisport.API_HostAddress = http://localhost:5290
+
+GET {{Lisport.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
