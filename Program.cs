@@ -1,5 +1,8 @@
 using Lisport.API.Application.Services;
 using Lisport.API.Domain.Interfaces;
+using Lisport.API.Infra.Data;
+using Lisport.API.Infra.Data.Repository;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +12,14 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-//builder.Services.AddScoped<IHealthService, HealthService>();
+
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=lisport.db"));
+
 
 var app = builder.Build();
 
