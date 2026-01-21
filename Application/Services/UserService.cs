@@ -1,4 +1,5 @@
-﻿using Lisport.API.Domain.Entities;
+﻿using Lisport.API.Application.DTOs;
+using Lisport.API.Domain.Entities;
 using Lisport.API.Domain.Interfaces;
 
 namespace Lisport.API.Application.Services
@@ -21,5 +22,12 @@ namespace Lisport.API.Application.Services
 
             return user;
         }
+
+        public User? GetById( Guid id)
+        {
+            return _repository.GetById(id);
+
+        }
+
     }
 }

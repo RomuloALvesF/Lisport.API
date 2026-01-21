@@ -30,5 +30,24 @@ namespace Lisport.API.Controllers
 
             return Created("", response);
         }
+        [HttpGet("{id:guid}")] //??
+
+        public ActionResult GetById(Guid id)
+        {
+            var user = _userService.GetById(id);
+
+            if (user == null) return NotFound();
+
+            var response = new UserResponseDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                CreatedAt = user.CreatedAt,
+            };
+
+            return Ok(response);
+            
+        }
     }
 }

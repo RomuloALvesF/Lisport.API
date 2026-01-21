@@ -4,5 +4,7 @@ namespace Lisport.API.Domain.Interfaces
     public interface IUserService
     {
         User Create(string name, string email);
+
+        User? GetById(Guid id);
     }
 }

@@ -18,8 +18,7 @@ namespace Lisport.API.Infra.Data.Repository
             _context.SaveChanges();
         }
 
-        public User?
-            GetById(Guid id)
+        public User? GetById(Guid id)
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);
         }
