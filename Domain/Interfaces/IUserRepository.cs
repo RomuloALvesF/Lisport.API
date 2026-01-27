@@ -5,5 +5,7 @@ namespace Lisport.API.Domain.Interfaces
     {
         void Add(User user);
         User? GetById(Guid id);
+        void Update(User user);
+
     }
 }

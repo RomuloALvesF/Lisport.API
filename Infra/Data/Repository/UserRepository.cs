@@ -1,5 +1,6 @@
 ﻿using Lisport.API.Domain.Entities;
 using Lisport.API.Domain.Interfaces;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Lisport.API.Infra.Data.Repository
 {
@@ -21,6 +22,15 @@ namespace Lisport.API.Infra.Data.Repository
         public User? GetById(Guid id)
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);
+
         }
+
+        public void Update(User user) 
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
+        
+
     }
 }

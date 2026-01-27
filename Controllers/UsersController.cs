@@ -49,5 +49,23 @@ namespace Lisport.API.Controllers
             return Ok(response);
             
         }
+
+        [HttpPatch("{id:guid}")]
+        public IActionResult Update(Guid id, [FromBody] UpdateUserRequestDto request)
+        {
+            var user = _userService.Update(id, request.name, request.email);
+
+            if (user == null) return NotFound();
+
+            var response = new UserResponseDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                CreatedAt = user.CreatedAt,
+            };
+
+            return Ok(response);
+        }
     }
 }

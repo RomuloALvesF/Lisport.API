@@ -29,5 +29,29 @@ namespace Lisport.API.Application.Services
 
         }
 
+        public User? Update(Guid id, string name, string email)
+        {
+            var user = _repository.GetById(id);
+
+            if (user == null) 
+            {
+                return null;
+            }
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                user.UpdateName(name);
+            }
+
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                user.UpdateEmail(email);            
+            }
+
+            _repository.Update(user);
+
+            return user;
+        }
+
     }
 }

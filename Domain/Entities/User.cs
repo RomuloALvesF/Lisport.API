@@ -17,5 +17,15 @@ namespace Lisport.API.Domain.Entities
             CreatedAt = DateTime.Now;
 
         }
+
+        public void UpdateName(string name)
+        {
+            Name = name;
+        }
+
+        public void UpdateEmail(string email)
+        {
+            Email = email;
+        }
     }
 }
