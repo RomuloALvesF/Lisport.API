@@ -72,19 +72,11 @@ namespace Lisport.API.Controllers
         [HttpDelete("{id:guid}")]
         public IActionResult Delete(Guid id)
         {
-            var user = _userService.Delete(id);
+            var deleted = _userService.Delete(id);
 
+            if (deleted == null) return NotFound();
 
-            if (user == null) return NotFound();
-
-            var response = new UserResponseDto
-            {
-               Id = user.Id,
-               Name = user.Name,
-               Email = user.Email,
-            };
-            
-            return Ok(response);
+            return NoContent();
         }
     }
 }

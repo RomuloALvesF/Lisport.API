@@ -53,7 +53,7 @@ namespace Lisport.API.Application.Services
             return user;
         }
 
-        public User Delete(Guid id)
+        public Boolean Delete(Guid id)
         {
             var user = _repository.GetById(id);
 
@@ -64,7 +64,7 @@ namespace Lisport.API.Application.Services
 
             _repository.Delete(user);
 
-            return user;
+            return true;
         }
 
     }

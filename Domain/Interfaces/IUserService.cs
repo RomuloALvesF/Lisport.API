@@ -10,6 +10,6 @@ namespace Lisport.API.Domain.Interfaces
 
         User? Update(Guid id, string? name, string? email);
 
-        User Delete(Guid id);
+        bool Delete(Guid id);
     }
 }
