@@ -1,6 +1,7 @@
 ﻿using Lisport.API.Application.DTOs;
 using Lisport.API.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace Lisport.API.Controllers
 {
@@ -65,6 +66,24 @@ namespace Lisport.API.Controllers
                 CreatedAt = user.CreatedAt,
             };
 
+            return Ok(response);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var user = _userService.Delete(id);
+
+
+            if (user == null) return NotFound();
+
+            var response = new UserResponseDto
+            {
+               Id = user.Id,
+               Name = user.Name,
+               Email = user.Email,
+            };
+            
             return Ok(response);
         }
     }

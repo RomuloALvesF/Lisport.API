@@ -8,6 +8,8 @@ namespace Lisport.API.Domain.Interfaces
 
         User? GetById(Guid id);
 
-        User? Update(Guid id,string? name, string? email);
+        User? Update(Guid id, string? name, string? email);
+
+        User Delete(Guid id);
     }
 }

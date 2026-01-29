@@ -7,5 +7,7 @@ namespace Lisport.API.Domain.Interfaces
         User? GetById(Guid id);
         void Update(User user);
 
+        void Delete(User user);
+
     }
 }

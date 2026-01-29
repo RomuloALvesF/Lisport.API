@@ -30,7 +30,12 @@ namespace Lisport.API.Infra.Data.Repository
             _context.Users.Update(user);
             _context.SaveChanges();
         }
-        
+
+        public void Delete(User user) 
+        {
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+        }
 
     }
 }

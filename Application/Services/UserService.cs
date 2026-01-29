@@ -53,5 +53,19 @@ namespace Lisport.API.Application.Services
             return user;
         }
 
+        public User Delete(Guid id)
+        {
+            var user = _repository.GetById(id);
+
+            if (user == null)
+            {
+                throw new Exception("Usuario não encontrado");
+            }
+
+            _repository.Delete(user);
+
+            return user;
+        }
+
     }
 }
