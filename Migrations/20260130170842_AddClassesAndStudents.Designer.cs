@@ -3,6 +3,7 @@ using System;
 using Lisport.API.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,67 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lisport.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260130170842_AddClassesAndStudents")]
+    partial class AddClassesAndStudents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.2");
-
-            modelBuilder.Entity("Lisport.API.Domain.Entities.AttendanceRecord", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("AttendanceSessionId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Justification")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("AttendanceSessionId", "StudentId")
-                        .IsUnique();
-
-                    b.ToTable("AttendanceRecords");
-                });
-
-            modelBuilder.Entity("Lisport.API.Domain.Entities.AttendanceSession", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ClassGroupId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassGroupId", "Date")
-                        .IsUnique();
-
-                    b.ToTable("AttendanceSessions");
-                });
 
             modelBuilder.Entity("Lisport.API.Domain.Entities.ClassGroup", b =>
                 {
@@ -156,44 +104,6 @@ namespace Lisport.API.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("Lisport.API.Domain.Entities.StudentEvolution", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("BehaviorScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("PhysicalScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TechnicalScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId", "Date")
-                        .IsUnique();
-
-                    b.ToTable("StudentEvolutions");
-                });
-
             modelBuilder.Entity("Lisport.API.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -233,36 +143,6 @@ namespace Lisport.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Lisport.API.Domain.Entities.AttendanceRecord", b =>
-                {
-                    b.HasOne("Lisport.API.Domain.Entities.AttendanceSession", "AttendanceSession")
-                        .WithMany("Records")
-                        .HasForeignKey("AttendanceSessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lisport.API.Domain.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AttendanceSession");
-
-                    b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("Lisport.API.Domain.Entities.AttendanceSession", b =>
-                {
-                    b.HasOne("Lisport.API.Domain.Entities.ClassGroup", "ClassGroup")
-                        .WithMany()
-                        .HasForeignKey("ClassGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ClassGroup");
-                });
-
             modelBuilder.Entity("Lisport.API.Domain.Entities.ClassGroup", b =>
                 {
                     b.HasOne("Lisport.API.Domain.Entities.User", "Professor")
@@ -283,22 +163,6 @@ namespace Lisport.API.Migrations
                         .IsRequired();
 
                     b.Navigation("ClassGroup");
-                });
-
-            modelBuilder.Entity("Lisport.API.Domain.Entities.StudentEvolution", b =>
-                {
-                    b.HasOne("Lisport.API.Domain.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("Lisport.API.Domain.Entities.AttendanceSession", b =>
-                {
-                    b.Navigation("Records");
                 });
 
             modelBuilder.Entity("Lisport.API.Domain.Entities.ClassGroup", b =>

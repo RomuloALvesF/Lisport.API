@@ -11,6 +11,7 @@ namespace Lisport.API.Domain.Entities
         public UserRole Role { get; private set; }
         public bool MustChangePassword { get; private set; }
         public Guid? CreatedByUserId { get; private set; }
+        public ICollection<ClassGroup> Classes { get; private set; } = new List<ClassGroup>();
         public DateTime CreatedAt { get; private set; }
 
         private User() { }
