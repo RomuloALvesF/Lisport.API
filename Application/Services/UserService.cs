@@ -1,5 +1,5 @@
-﻿using Lisport.API.Application.DTOs;
 using Lisport.API.Domain.Entities;
+using Lisport.API.Domain.Enums;
 using Lisport.API.Domain.Interfaces;
 
 namespace Lisport.API.Application.Services
@@ -14,22 +14,13 @@ namespace Lisport.API.Application.Services
             _repository = repository;
         }
 
-        public User Create(string name, string email)
-        {
-            var user = new User(name, email);
-
-            _repository.Add(user);
-
-            return user;
-        }
-
         public User? GetById( Guid id)
         {
             return _repository.GetById(id);
 
         }
 
-        public User? Update(Guid id, string name, string email)
+        public User? Update(Guid id, string? name, string? email, UserRole? role)
         {
             var user = _repository.GetById(id);
 
@@ -45,7 +36,18 @@ namespace Lisport.API.Application.Services
 
             if (!string.IsNullOrWhiteSpace(email))
             {
-                user.UpdateEmail(email);            
+                var normalizedEmail = email.Trim().ToLowerInvariant();
+                var existing = _repository.GetByEmail(normalizedEmail);
+                if (existing != null && existing.Id != user.Id)
+                {
+                    throw new InvalidOperationException("Email já cadastrado.");
+                }
+                user.UpdateEmail(normalizedEmail);
+            }
+
+            if (role.HasValue)
+            {
+                user.UpdateRole(role.Value);
             }
 
             _repository.Update(user);
@@ -59,7 +61,7 @@ namespace Lisport.API.Application.Services
 
             if (user == null)
             {
-                throw new Exception("Usuario não encontrado");
+                return false;
             }
 
             _repository.Delete(user);

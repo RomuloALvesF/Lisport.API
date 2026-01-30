@@ -1,12 +1,14 @@
-﻿using Lisport.API.Application.DTOs;
+using Lisport.API.Application.DTOs;
+using Lisport.API.Domain.Entities;
 using Lisport.API.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
 
 namespace Lisport.API.Controllers
 {
     [ApiController]
     [Route("users")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
 
@@ -17,21 +19,7 @@ namespace Lisport.API.Controllers
             _userService = userService;
         }    
 
-        public ActionResult Create([FromBody] CreateUserRequestDto request)
-        {
-            var user = _userService.Create(request.Name, request.Email);
-
-            var response = new UserResponseDto
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                CreatedAt = user.CreatedAt,
-            };
-
-            return Created("", response);
-        }
-        [HttpGet("{id:guid}")] //??
+        [HttpGet("{id:guid}")]
 
         public ActionResult GetById(Guid id)
         {
@@ -44,6 +32,7 @@ namespace Lisport.API.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
+                Role = user.Role,
                 CreatedAt = user.CreatedAt,
             };
 
@@ -54,7 +43,15 @@ namespace Lisport.API.Controllers
         [HttpPatch("{id:guid}")]
         public IActionResult Update(Guid id, [FromBody] UpdateUserRequestDto request)
         {
-            var user = _userService.Update(id, request.name, request.email);
+            User? user;
+            try
+            {
+                user = _userService.Update(id, request.Name, request.Email, request.Role);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
 
             if (user == null) return NotFound();
 
@@ -63,6 +60,7 @@ namespace Lisport.API.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
+                Role = user.Role,
                 CreatedAt = user.CreatedAt,
             };
 
@@ -74,7 +72,7 @@ namespace Lisport.API.Controllers
         {
             var deleted = _userService.Delete(id);
 
-            if (deleted == null) return NotFound();
+            if (!deleted) return NotFound();
 
             return NoContent();
         }

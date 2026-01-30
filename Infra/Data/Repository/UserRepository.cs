@@ -1,6 +1,5 @@
-﻿using Lisport.API.Domain.Entities;
+using Lisport.API.Domain.Entities;
 using Lisport.API.Domain.Interfaces;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Lisport.API.Infra.Data.Repository
 {
@@ -23,6 +22,11 @@ namespace Lisport.API.Infra.Data.Repository
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);
 
+        }
+
+        public User? GetByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
         public void Update(User user) 

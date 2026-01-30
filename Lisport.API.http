@@ -1,6 +1,34 @@
 @Lisport.API_HostAddress = http://localhost:5290
+@token = REPLACE_WITH_JWT
 
-GET {{Lisport.API_HostAddress}}/weatherforecast/
-Accept: application/json
+### Login
+POST {{Lisport.API_HostAddress}}/auth/login
+Content-Type: application/json
 
-###
+{
+  "email": "admin@lisport.local",
+  "password": "ChangeThis123"
+}
+
+### Change password
+POST {{Lisport.API_HostAddress}}/auth/change-password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currentPassword": "ChangeThis123",
+  "newPassword": "NovaSenha123"
+}
+
+### Register professor (Gestor only)
+POST {{Lisport.API_HostAddress}}/auth/register
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Professor Teste",
+  "email": "professor@lisport.local",
+  "password": "Senha123",
+  "role": "Professor"
+}
+
