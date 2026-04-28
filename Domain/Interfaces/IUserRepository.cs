@@ -1,4 +1,4 @@
-﻿using Lisport.API.Domain.Entities;
+using Lisport.API.Domain.Entities;
 namespace Lisport.API.Domain.Interfaces
 {
     public interface IUserRepository
@@ -8,6 +8,7 @@ namespace Lisport.API.Domain.Interfaces
         void Update(User user);
 
         void Delete(User user);
-
+        User? GetByEmail(string email);
+        bool Any();
     }
 }

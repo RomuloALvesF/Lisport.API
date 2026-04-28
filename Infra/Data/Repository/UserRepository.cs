@@ -1,4 +1,4 @@
-﻿using Lisport.API.Domain.Entities;
+using Lisport.API.Domain.Entities;
 using Lisport.API.Domain.Interfaces;
 using System.Security.Cryptography.X509Certificates;
 
@@ -37,5 +37,11 @@ namespace Lisport.API.Infra.Data.Repository
             _context.SaveChanges();
         }
 
+        public User? GetByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
+
+        public bool Any() => _context.Users.Any();
     }
 }

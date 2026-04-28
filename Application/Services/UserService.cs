@@ -1,4 +1,4 @@
-﻿using Lisport.API.Application.DTOs;
+using Lisport.API.Application.DTOs;
 using Lisport.API.Domain.Entities;
 using Lisport.API.Domain.Interfaces;
 
@@ -53,17 +53,11 @@ namespace Lisport.API.Application.Services
             return user;
         }
 
-        public Boolean Delete(Guid id)
+        public bool Delete(Guid id)
         {
             var user = _repository.GetById(id);
-
-            if (user == null)
-            {
-                throw new Exception("Usuario não encontrado");
-            }
-
+            if (user == null) return false;
             _repository.Delete(user);
-
             return true;
         }
 

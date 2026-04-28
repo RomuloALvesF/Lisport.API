@@ -1,4 +1,4 @@
-﻿using Lisport.API.Application.DTOs;
+using Lisport.API.Application.DTOs;
 using Lisport.API.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
@@ -17,6 +17,7 @@ namespace Lisport.API.Controllers
             _userService = userService;
         }    
 
+        [HttpPost]
         public ActionResult Create([FromBody] CreateUserRequestDto request)
         {
             var user = _userService.Create(request.Name, request.Email);
@@ -72,10 +73,7 @@ namespace Lisport.API.Controllers
         [HttpDelete("{id:guid}")]
         public IActionResult Delete(Guid id)
         {
-            var deleted = _userService.Delete(id);
-
-            if (deleted == null) return NotFound();
-
+            if (!_userService.Delete(id)) return NotFound();
             return NoContent();
         }
     }
