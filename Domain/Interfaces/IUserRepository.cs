@@ -5,6 +5,7 @@ namespace Lisport.API.Domain.Interfaces
     {
         void Add(User user);
         User? GetById(Guid id);
+        User? GetByEmail(string email);
         void Update(User user);
 
         void Delete(User user);

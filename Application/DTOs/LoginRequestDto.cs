@@ -1,22 +1,14 @@
-using Lisport.API.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lisport.API.Application.DTOs
 {
-    public class CreateUserRequestDto
+    public class LoginRequestDto
     {
-        [Required]
-        public string Name { get; set; }
-
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
-        [MinLength(6)]
         public string Password { get; set; }
-
-        [Required]
-        public UserRole Role { get; set; }
     }
 }

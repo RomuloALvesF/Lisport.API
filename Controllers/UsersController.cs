@@ -1,12 +1,17 @@
 using Lisport.API.Application.DTOs;
+<<<<<<< HEAD
+=======
+using Lisport.API.Domain.Entities;
+>>>>>>> df4a018882a686e4ea631a2b898d710c7d421f71
 using Lisport.API.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
 
 namespace Lisport.API.Controllers
 {
     [ApiController]
     [Route("users")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
 
@@ -17,6 +22,7 @@ namespace Lisport.API.Controllers
             _userService = userService;
         }    
 
+<<<<<<< HEAD
         [HttpPost]
         public ActionResult Create([FromBody] CreateUserRequestDto request)
         {
@@ -33,6 +39,9 @@ namespace Lisport.API.Controllers
             return Created("", response);
         }
         [HttpGet("{id:guid}")] //??
+=======
+        [HttpGet("{id:guid}")]
+>>>>>>> df4a018882a686e4ea631a2b898d710c7d421f71
 
         public ActionResult GetById(Guid id)
         {
@@ -45,6 +54,7 @@ namespace Lisport.API.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
+                Role = user.Role,
                 CreatedAt = user.CreatedAt,
             };
 
@@ -55,7 +65,15 @@ namespace Lisport.API.Controllers
         [HttpPatch("{id:guid}")]
         public IActionResult Update(Guid id, [FromBody] UpdateUserRequestDto request)
         {
-            var user = _userService.Update(id, request.name, request.email);
+            User? user;
+            try
+            {
+                user = _userService.Update(id, request.Name, request.Email, request.Role);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
 
             if (user == null) return NotFound();
 
@@ -64,6 +82,7 @@ namespace Lisport.API.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
+                Role = user.Role,
                 CreatedAt = user.CreatedAt,
             };
 
@@ -73,7 +92,14 @@ namespace Lisport.API.Controllers
         [HttpDelete("{id:guid}")]
         public IActionResult Delete(Guid id)
         {
+<<<<<<< HEAD
             if (!_userService.Delete(id)) return NotFound();
+=======
+            var deleted = _userService.Delete(id);
+
+            if (!deleted) return NotFound();
+
+>>>>>>> df4a018882a686e4ea631a2b898d710c7d421f71
             return NoContent();
         }
     }

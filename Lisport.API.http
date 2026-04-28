@@ -1,6 +1,130 @@
 @Lisport.API_HostAddress = http://localhost:5290
+@token = REPLACE_WITH_JWT
 
-GET {{Lisport.API_HostAddress}}/weatherforecast/
-Accept: application/json
+### Login
+POST {{Lisport.API_HostAddress}}/auth/login
+Content-Type: application/json
 
-###
+{
+  "email": "admin@lisport.local",
+  "password": "ChangeThis123"
+}
+
+### Change password
+POST {{Lisport.API_HostAddress}}/auth/change-password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currentPassword": "ChangeThis123",
+  "newPassword": "NovaSenha123"
+}
+
+### Register professor (Gestor only)
+POST {{Lisport.API_HostAddress}}/auth/register
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Professor Teste",
+  "email": "professor@lisport.local",
+  "password": "Senha123",
+  "role": "Professor"
+}
+
+### Create class
+POST {{Lisport.API_HostAddress}}/classes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Turma A",
+  "modality": "Basquete",
+  "ageRange": "12-15",
+  "daysAndTimes": "Seg/Qua 18:00"
+}
+
+### List classes
+GET {{Lisport.API_HostAddress}}/classes
+Authorization: Bearer {{token}}
+
+### Create student
+POST {{Lisport.API_HostAddress}}/students
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Aluno Teste",
+  "birthDate": "2012-05-10",
+  "gender": "Male",
+  "document": "123.456.789-00",
+  "responsibleName": "Responsável",
+  "phone": "11999999999",
+  "address": "Rua A, 123",
+  "notes": "Observação opcional",
+  "classGroupId": "REPLACE_CLASS_ID"
+}
+
+### List students by class
+GET {{Lisport.API_HostAddress}}/classes/REPLACE_CLASS_ID/students
+Authorization: Bearer {{token}}
+
+### Create attendance session (by class and date)
+POST {{Lisport.API_HostAddress}}/attendance/sessions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "classGroupId": "REPLACE_CLASS_ID",
+  "date": "2026-01-30"
+}
+
+### List attendance sessions by class
+GET {{Lisport.API_HostAddress}}/attendance/classes/REPLACE_CLASS_ID/sessions
+Authorization: Bearer {{token}}
+
+### List attendance records for a session
+GET {{Lisport.API_HostAddress}}/attendance/sessions/REPLACE_SESSION_ID/records
+Authorization: Bearer {{token}}
+
+### Mark attendance
+POST {{Lisport.API_HostAddress}}/attendance/sessions/REPLACE_SESSION_ID/mark
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "studentId": "REPLACE_STUDENT_ID",
+  "status": "Present",
+  "justification": null
+}
+
+### Create student evolution
+POST {{Lisport.API_HostAddress}}/evolutions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "studentId": "REPLACE_STUDENT_ID",
+  "date": "2026-01-30",
+  "physicalScore": 4,
+  "technicalScore": 3,
+  "behaviorScore": 5,
+  "notes": "Evolução positiva"
+}
+
+### List evolutions by student
+GET {{Lisport.API_HostAddress}}/evolutions/students/REPLACE_STUDENT_ID
+Authorization: Bearer {{token}}
+
+### Update evolution
+PATCH {{Lisport.API_HostAddress}}/evolutions/REPLACE_EVOLUTION_ID
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "physicalScore": 5,
+  "technicalScore": 4,
+  "behaviorScore": 5,
+  "notes": "Melhorou na última semana"
+}
+
